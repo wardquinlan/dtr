@@ -23,7 +23,15 @@ public class DTImport {
     loadProperties();
     new SeriesDAO();
     Options options = new Options();
-    Option opt = new Option("u", "url", true, "url");
+    Option opt = new Option("i", "id", true, "the series id");
+    opt.setArgName("id");
+    opt.setRequired(true);
+    options.addOption(opt);
+    opt = new Option("c", "class", true, "the HTML class containing price data");
+    opt.setArgName("class");
+    opt.setRequired(true);
+    options.addOption(opt);
+    opt = new Option("u", "url", true, "the url");
     opt.setArgName("url");
     opt.setRequired(true);
     options.addOption(opt);
