@@ -49,7 +49,7 @@ public class SeriesDAO {
     }
   }
   
-  public void addSeries(Series series) {
+  public void addDataPoint(DataPoint dataPoint) {
   }
   
   public Series findSeriesById(String id) {

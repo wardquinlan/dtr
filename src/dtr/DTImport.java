@@ -44,24 +44,24 @@ public class DTImport {
     try {
       CommandLineParser parser = new DefaultParser();
       CommandLine cmd = parser.parse(options, args);
-      Series series = constructSeries(cmd.getOptionValue("id"),
-                                      cmd.getOptionValue("url"),
-                                      cmd.getOptionValue("class"));
-      System.out.println(series);
+      DataPoint dataPoint = importDataPoint(cmd.getOptionValue("id"),
+                                            cmd.getOptionValue("url"),
+                                            cmd.getOptionValue("class"));
+      System.out.println(dataPoint);
     } catch(ParseException e) {
       formatter.printHelp("DTImport", options);
       System.exit(1);
     }
   }
   
-  private Series constructSeries(String id, String url, String klass) throws Exception {
+  private DataPoint importDataPoint(String id, String url, String cssClass) throws Exception {
     Document doc = Jsoup.connect("https://web.tmxmoney.com/quote.php?qm_symbol=xiu").get();
     Elements elements = doc.select("span.price");
     if (elements.size() == 0) {
-      throw new Exception("no element found for class " + klass);
+      throw new Exception("no element found for class " + cssClass);
     }
     if (elements.size() > 1) {
-      throw new Exception("multiple elements found for class " + klass);
+      throw new Exception("multiple elements found for class " + cssClass);
     }
     Element element = elements.get(0);
     String price = element.text();
@@ -72,7 +72,7 @@ public class DTImport {
       }
     }
     Float value = Float.parseFloat(sb.toString());
-    return new Series(id, value);
+    return new DataPoint(id, value);
   }
   
   private void loadProperties() {
