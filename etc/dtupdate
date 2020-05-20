@@ -12,4 +12,11 @@ TCK=XIU
 $DTR_HOME/dtimport --url $URL$TCK --class $CLASS --id $TCK
 TCK=HIU
 $DTR_HOME/dtimport --url $URL$TCK --class $CLASS --id $TCK
-  
+TCK=HIX
+$DTR_HOME/dtimport --url $URL$TCK --class $CLASS --id $TCK
+TCK=XIC
+$DTR_HOME/dtimport --url $URL$TCK --class $CLASS --id $TCK
+TCK=CPD
+$DTR_HOME/dtimport --url $URL$TCK --class $CLASS --id $TCK
+TCK=XSP
+$DTR_HOME/dtimport --url $URL$TCK --class $CLASS --id $TCK
