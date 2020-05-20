@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -41,12 +42,21 @@ public class DTImport {
     opt.setArgName("url");
     opt.setRequired(true);
     options.addOption(opt);
+    opt = new Option("s", "source-name", true, "the source name");
+    opt.setArgName("source");
+    opt.setRequired(true);
+    options.addOption(opt);
+    opt = new Option("d", "source-id", true, "the source id");
+    opt.setArgName("id");
+    opt.setRequired(true);
+    options.addOption(opt);
+    
     try {
       CommandLineParser parser = new DefaultParser();
       CommandLine cmd = parser.parse(options, args);
-      DataPoint dataPoint = importDataPoint(cmd.getOptionValue("id"),
-                                            cmd.getOptionValue("url"),
-                                            cmd.getOptionValue("class"));
+      DataPoint dataPoint = extractDataPoint(cmd.getOptionValue("id"),
+                                             cmd.getOptionValue("url"),
+                                             cmd.getOptionValue("class"));
       System.out.println(dataPoint);
     } catch(ParseException e) {
       formatter.printHelp("DTImport", options);
@@ -54,9 +64,9 @@ public class DTImport {
     }
   }
   
-  private DataPoint importDataPoint(String id, String url, String cssClass) throws Exception {
-    Document doc = Jsoup.connect("https://web.tmxmoney.com/quote.php?qm_symbol=xiu").get();
-    Elements elements = doc.select("span.price");
+  private DataPoint extractDataPoint(String id, String url, String cssClass) throws Exception {
+    Document doc = Jsoup.connect(url).get();
+    Elements elements = doc.select(cssClass);
     if (elements.size() == 0) {
       throw new Exception("no element found for class " + cssClass);
     }
@@ -72,7 +82,7 @@ public class DTImport {
       }
     }
     Float value = Float.parseFloat(sb.toString());
-    return new DataPoint(id, value);
+    return new DataPoint(LocalDateTime.now(), value);
   }
   
   private void loadProperties() {

@@ -3,20 +3,14 @@ package dtr;
 import java.time.LocalDateTime;
 
 public class DataPoint {
-  private String id;
   private LocalDateTime dateTime;
   private float value;
   
-  public DataPoint(String id, Float value) {
-    this.id = id;
+  public DataPoint(LocalDateTime dateTime, Float value) {
+    this.dateTime = dateTime;
     this.value = value;
-    this.dateTime = LocalDateTime.now();
   }
 
-  public String getId() {
-    return id;
-  }
-  
   public LocalDateTime getDateTime() {
     return dateTime;
   }
