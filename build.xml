@@ -40,6 +40,7 @@
     <mkdir dir="${output}/${appname}.d"/>
     <jar jarfile="${output}/${appname}.d/${appname}.jar" basedir="${classes}"/>
     <copy todir="${output}" file="${etc}/dtimport"/>
+  	<copy todir="${output}" file="${etc}/dtupdate"/>
     <copy todir="${output}/${appname}.d">
       <fileset dir="${lib}" includes="*.jar"/>
     </copy>
@@ -47,6 +48,7 @@
       <fileset dir="${etc}" includes="*.properties"/>
     </copy>
     <chmod file="${output}/dtimport" perm="755"/>
+  	<chmod file="${output}/dtupdate" perm="755"/>
   </target>
 
   <target name="rebuild" depends="clean,jar"/>
@@ -56,5 +58,6 @@
       <fileset dir="${output}" includes="**"/>
   	</copy>
   	<chmod file="${env.DTR_HOME}/dtimport" perm="755"/>
+  	<chmod file="${env.DTR_HOME}/dtupdate" perm="755"/>
   </target>
 </project>
