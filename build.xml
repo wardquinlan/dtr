@@ -3,6 +3,7 @@
     dtr build file
   </description>
 
+  <property environment="env"/>
   <property name="appname" value="dtr"/>
   <property name="javahome" value="/home/ward/java-se-8u41-ri"/>
   <property name="src" value="src"/>
@@ -48,6 +49,12 @@
     <chmod file="${output}/dtimport" perm="755"/>
   </target>
 
-  <target name="rebuild" depends="clean,jar">
+  <target name="rebuild" depends="clean,jar"/>
+	
+  <target name="deploy" depends="rebuild">
+  	<copy todir="${env.DTR_HOME}">
+      <fileset dir="${output}" includes="**"/>
+  	</copy>
+  	<chmod file="${env.DTR_HOME}/dtimport" perm="755"/>
   </target>
 </project>
