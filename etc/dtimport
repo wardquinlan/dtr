@@ -1,10 +1,6 @@
 #!/bin/sh
 
-if [ "$DTR_HOME" == "" ]; then
-  echo DTR_HOME not defined
-  exit 1
-fi
-
+DTR_HOME=/home/ward/dtr
 CLASSPATH=$DTR_HOME/dtr.d
 CLASSPATH=$CLASSPATH:$DTR_HOME/dtr.d/dtr.jar
 CLASSPATH=$CLASSPATH:$DTR_HOME/dtr.d/commons-logging-1.1.jar

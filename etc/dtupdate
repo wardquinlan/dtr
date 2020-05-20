@@ -1,10 +1,6 @@
 #!/bin/sh
 
-if [ "$DTR_HOME" == "" ]; then
-  echo DTR_HOME not defined
-  exit 1
-fi
-
+DTR_HOME=/home/ward/dtr
 URL=https://web.tmxmoney.com/quote.php?qm_symbol=
 CLASS=span.price
 
