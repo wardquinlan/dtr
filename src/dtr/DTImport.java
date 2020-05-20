@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -25,10 +26,10 @@ import dtr.SeriesDAO;
 public class DTImport {
   private static Log log = LogFactory.getFactory().getInstance(DTImport.class);
   private static HelpFormatter formatter = new HelpFormatter();
+  private SeriesDAO dao = new SeriesDAO();
       
   public DTImport(String[] args) throws Exception {
     loadProperties();
-    new SeriesDAO();
     Options options = new Options();
     Option opt = new Option("i", "id", true, "the series id");
     opt.setArgName("id");
@@ -42,29 +43,19 @@ public class DTImport {
     opt.setArgName("url");
     opt.setRequired(true);
     options.addOption(opt);
-    opt = new Option("s", "source-name", true, "the source name");
-    opt.setArgName("source");
-    opt.setRequired(true);
-    options.addOption(opt);
-    opt = new Option("d", "source-id", true, "the source id");
-    opt.setArgName("id");
-    opt.setRequired(true);
-    options.addOption(opt);
     
     try {
       CommandLineParser parser = new DefaultParser();
       CommandLine cmd = parser.parse(options, args);
-      DataPoint dataPoint = extractDataPoint(cmd.getOptionValue("id"),
-                                             cmd.getOptionValue("url"),
-                                             cmd.getOptionValue("class"));
-      System.out.println(dataPoint);
+      DataPoint dataPoint = extractDataPoint(cmd.getOptionValue("url"), cmd.getOptionValue("class"));
+      dao.insert(cmd.getOptionValue("id"), dataPoint);
     } catch(ParseException e) {
       formatter.printHelp("DTImport", options);
       System.exit(1);
     }
   }
   
-  private DataPoint extractDataPoint(String id, String url, String cssClass) throws Exception {
+  private DataPoint extractDataPoint(String url, String cssClass) throws Exception {
     Document doc = Jsoup.connect(url).get();
     Elements elements = doc.select(cssClass);
     if (elements.size() == 0) {
@@ -82,7 +73,7 @@ public class DTImport {
       }
     }
     Float value = Float.parseFloat(sb.toString());
-    return new DataPoint(LocalDateTime.now(), value);
+    return new DataPoint(new Date(), value);
   }
   
   private void loadProperties() {

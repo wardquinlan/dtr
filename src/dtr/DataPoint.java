@@ -1,18 +1,18 @@
 package dtr;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class DataPoint {
-  private LocalDateTime dateTime;
+  private Date date;
   private float value;
   
-  public DataPoint(LocalDateTime dateTime, Float value) {
-    this.dateTime = dateTime;
+  public DataPoint(Date date, Float value) {
+    this.date = date;
     this.value = value;
   }
 
-  public LocalDateTime getDateTime() {
-    return dateTime;
+  public Date getDate() {
+    return date;
   }
   
   public float getValue() {
